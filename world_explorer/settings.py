@@ -33,6 +33,20 @@ DEBUG = os.getenv('DEBUG', 'True') == 'True'
 # Allow configuration via environment variable, comma-separated
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
+# If deployed on Render, automatically include the external service hostname
+render_url = os.getenv('RENDER_EXTERNAL_URL') or os.getenv('RENDER_INTERNAL_HOSTNAME')
+if render_url:
+    try:
+        from urllib.parse import urlparse
+        hostname = urlparse(render_url).hostname or render_url
+    except Exception:
+        hostname = render_url
+    if hostname and hostname not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(hostname)
+
+# Remove any empty entries
+ALLOWED_HOSTS = [h for h in ALLOWED_HOSTS if h]
+
 
 # Application definition
 
