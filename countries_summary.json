@@ -1,0 +1,111 @@
+{
+  "total_countries": 245,
+  "total_population": 8019493760,
+  "total_area_km2": 136247601.71,
+  "regions": {
+    "Asia": {
+      "count": 50,
+      "population": 4724731966
+    },
+    "Americas": {
+      "count": 56,
+      "population": 1042579783
+    },
+    "Africa": {
+      "count": 59,
+      "population": 1462464411
+    },
+    "Europe": {
+      "count": 53,
+      "population": 741657922
+    },
+    "Oceania": {
+      "count": 27,
+      "population": 48059678
+    }
+  },
+  "top_10_by_population": [
+    {
+      "name": "India",
+      "population": 1417492000
+    },
+    {
+      "name": "China",
+      "population": 1408280000
+    },
+    {
+      "name": "United States",
+      "population": 340110988
+    },
+    {
+      "name": "Indonesia",
+      "population": 284438782
+    },
+    {
+      "name": "Pakistan",
+      "population": 241499431
+    },
+    {
+      "name": "Nigeria",
+      "population": 223800000
+    },
+    {
+      "name": "Brazil",
+      "population": 213421037
+    },
+    {
+      "name": "Bangladesh",
+      "population": 169828911
+    },
+    {
+      "name": "Russia",
+      "population": 146028325
+    },
+    {
+      "name": "Mexico",
+      "population": 130575786
+    }
+  ],
+  "top_10_by_area": [
+    {
+      "name": "Russia",
+      "area_km2": 17098246.0
+    },
+    {
+      "name": "Canada",
+      "area_km2": 9984670.0
+    },
+    {
+      "name": "China",
+      "area_km2": 9706961.0
+    },
+    {
+      "name": "United States",
+      "area_km2": 9525067.0
+    },
+    {
+      "name": "Brazil",
+      "area_km2": 8515767.0
+    },
+    {
+      "name": "Australia",
+      "area_km2": 7692024.0
+    },
+    {
+      "name": "India",
+      "area_km2": 3287263.0
+    },
+    {
+      "name": "Argentina",
+      "area_km2": 2780400.0
+    },
+    {
+      "name": "Kazakhstan",
+      "area_km2": 2724900.0
+    },
+    {
+      "name": "Algeria",
+      "area_km2": 2381741.0
+    }
+  ]
+}

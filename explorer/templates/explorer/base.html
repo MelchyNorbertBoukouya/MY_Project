@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}World Explorer{% endblock %}</title>
+    <meta name="description" content="Explore countries, capitals, currencies and more with real-time data">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="{% static 'explorer/css/style.css' %}">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>">
+</head>
+
+<body>
+    <!-- Animated Background Orbs -->
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+
+    <div class="container">
+        <!-- Premium Header -->
+        <header class="header animate-fadeInUp">
+            <a href="{% url 'index' %}" class="logo">
+                <span class="logo-icon">🌍</span>
+                World Explorer
+            </a>
+            <nav class="nav-links">
+                <a href="{% url 'index' %}" class="nav-link {% if request.path == '/' %}active{% endif %}">Home</a>
+                <a href="{% url 'search' %}?type=region&q=Europe" class="nav-link">Regions</a>
+                <a href="{% url 'search' %}?type=name&q=a" class="nav-link">All Countries</a>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <!-- Premium Footer -->
+        <footer class="footer animate-fadeInUp">
+            <p>© 2026 <strong>World Explorer</strong> — Built with ❤️ using <a href="https://restcountries.com"
+                    target="_blank">REST Countries API</a></p>
+        </footer>
+    </div>
+
+    <!-- Smooth scroll and micro-interactions -->
+    <script>
+        // Add loaded class for initial animations
+        document.addEventListener('DOMContentLoaded', function () {
+            document.body.classList.add('loaded');
+
+            // Smooth hover effects for cards
+            document.querySelectorAll('.country-card, .region-card').forEach(card => {
+                card.addEventListener('mouseenter', function (e) {
+                    this.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease';
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

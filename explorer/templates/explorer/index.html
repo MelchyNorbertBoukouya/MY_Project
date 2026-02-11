@@ -1,0 +1,99 @@
+{% extends 'explorer/base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero animate-fadeInUp">
+    <span class="hero-badge">Real-time Global Data</span>
+    <h1>Discover the <span class="gradient-text">World</span></h1>
+    <p class="hero-subtitle">
+        Explore 250+ countries with detailed information about capitals, currencies,
+        languages, and more. Your gateway to global knowledge.
+    </p>
+
+    <!-- Premium Search -->
+    <div class="search-container animate-fadeInUp stagger-2">
+        <form action="{% url 'search' %}" method="get" class="search-form">
+            <div class="search-input-wrapper">
+                <input type="text" name="q" class="search-input" placeholder="Search countries, capitals, currencies..."
+                    required>
+            </div>
+            <div class="search-select-wrapper">
+                <select name="type" class="search-select">
+                    <option value="name">🌍 By Name</option>
+                    <option value="capital">🏛️ By Capital</option>
+                    <option value="city">🏙️ By City</option>
+                    <option value="currency">💰 By Currency</option>
+                    <option value="lang">🗣️ By Language</option>
+                    <option value="region">📍 By Region</option>
+                    <option value="subregion">🗺️ By Subregion</option>
+                    <option value="code">🔤 By ISO Code</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-primary">
+                Search
+                <span>→</span>
+            </button>
+        </form>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-grid animate-fadeInUp stagger-3">
+    <div class="stat-card">
+        <div class="stat-number">250+</div>
+        <div class="stat-label">Countries & Territories</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">8B+</div>
+        <div class="stat-label">World Population</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">180+</div>
+        <div class="stat-label">Currencies</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">7,000+</div>
+        <div class="stat-label">Languages Spoken</div>
+    </div>
+</section>
+
+<!-- Browse by Region -->
+<section class="regions-section animate-fadeInUp stagger-4">
+    <div class="section-header">
+        <h2 class="section-title">Browse by Region</h2>
+        <p class="section-subtitle">Explore countries by geographical region</p>
+    </div>
+
+    <div class="region-grid">
+        <a href="{% url 'search' %}?q=Africa&type=region" class="region-card">
+            <span class="region-emoji">🌍</span>
+            <h3 class="region-name">Africa</h3>
+            <span class="region-count">59 Countries</span>
+        </a>
+
+        <a href="{% url 'search' %}?q=Americas&type=region" class="region-card">
+            <span class="region-emoji">🌎</span>
+            <h3 class="region-name">Americas</h3>
+            <span class="region-count">56 Countries</span>
+        </a>
+
+        <a href="{% url 'search' %}?q=Asia&type=region" class="region-card">
+            <span class="region-emoji">🌏</span>
+            <h3 class="region-name">Asia</h3>
+            <span class="region-count">50 Countries</span>
+        </a>
+
+        <a href="{% url 'search' %}?q=Europe&type=region" class="region-card">
+            <span class="region-emoji">🏰</span>
+            <h3 class="region-name">Europe</h3>
+            <span class="region-count">53 Countries</span>
+        </a>
+
+        <a href="{% url 'search' %}?q=Oceania&type=region" class="region-card">
+            <span class="region-emoji">🏝️</span>
+            <h3 class="region-name">Oceania</h3>
+            <span class="region-count">27 Countries</span>
+        </a>
+    </div>
+</section>
+{% endblock %}

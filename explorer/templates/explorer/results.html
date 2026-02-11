@@ -1,0 +1,64 @@
+{% extends 'explorer/base.html' %}
+
+{% block title %}{{ query }} - Search Results | World Explorer{% endblock %}
+
+{% block content %}
+<div class="animate-fadeInUp">
+    <a href="{% url 'index' %}" class="back-link">
+        <span>←</span> Back to Search
+    </a>
+
+    <div class="results-header">
+        <div>
+            <h1 class="results-title">Results for "{{ query }}"</h1>
+            <p class="results-meta">Searching by {{ search_type }} • {{ results|length }} result{{ results|pluralize }}
+                found</p>
+        </div>
+    </div>
+</div>
+
+{% if results %}
+<div class="country-grid animate-fadeInUp stagger-2">
+    {% for item in results %}
+    {% if search_type == 'city' %}
+    <div class="country-card">
+        <div style="overflow: hidden;">
+            <img src="{{ item.flag }}" alt="{{ item.name }}" class="country-flag" loading="lazy">
+        </div>
+        <div class="card-content">
+            <h3 class="country-name">🏙️ {{ item.name }}</h3>
+            <div class="country-info">
+                <span class="country-info-item">Country: {{ item.country }} ({{ item.country_code }})</span>
+                <span class="country-info-item">Region: {{ item.region }}</span>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <a href="{% url 'country_detail' item.cca3 %}" class="country-card">
+        <div style="overflow: hidden;">
+            <img src="{{ item.flags.svg }}" alt="{{ item.name.common }} Flag" class="country-flag" loading="lazy">
+        </div>
+        <div class="card-content">
+            <h3 class="country-name">{{ item.name.common }}</h3>
+            <div class="country-info">
+                {% if item.capital %}<span class="country-info-item">🏛️ {{ item.capital.0 }}</span>{% endif %}
+                <span class="country-info-item">📍 {{ item.region }}</span>
+                {% if item.population %}<span class="country-info-item">👥 {{ item.population|floatformat:0 }}
+                    people</span>{% endif %}
+            </div>
+        </div>
+    </a>
+    {% endif %}
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state animate-fadeInUp stagger-2">
+    <div class="empty-state-icon">🔍</div>
+    <h3 class="empty-state-title">No Results Found</h3>
+    <p class="empty-state-text">
+        We couldn't find any matches for "{{ query }}".
+        Try checking your spelling or selecting a different search type.
+    </p>
+</div>
+{% endif %}
+{% endblock %}

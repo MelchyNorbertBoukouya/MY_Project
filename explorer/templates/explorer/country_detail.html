@@ -1,0 +1,159 @@
+{% extends 'explorer/base.html' %}
+
+{% block title %}{{ country.name.common }} | World Explorer{% endblock %}
+
+{% block content %}
+<div class="country-detail">
+    <a href="{% url 'index' %}" class="back-link animate-fadeInUp">
+        <span>←</span>
+        Start New Search
+    </a>
+
+    {% if country %}
+    <!-- Country Hero -->
+    <div class="country-hero animate-fadeInUp stagger-1">
+        <div class="country-hero-bg" style="background-image: url('{{ country.flags.svg }}');"></div>
+        <div class="country-hero-overlay">
+            <h1 class="country-hero-title">{{ country.name.common }}</h1>
+            <p class="country-hero-subtitle">{{ country.name.official }}</p>
+        </div>
+    </div>
+
+    <!-- Detail Grid -->
+    <div class="detail-grid animate-fadeInUp stagger-2">
+        <!-- Geography Section -->
+        <div class="detail-section">
+            <h3 class="detail-section-title">
+                <span>🌍</span> Geography
+            </h3>
+            <div class="detail-item">
+                <span class="detail-label">Region</span>
+                <span class="detail-value">{{ country.region }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Subregion</span>
+                <span class="detail-value">{{ country.subregion|default:"N/A" }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Capital</span>
+                <span class="detail-value">{{ country.capital.0|default:"N/A" }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Population</span>
+                <span class="detail-value">{{ country.population|floatformat:0 }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Area</span>
+                <span class="detail-value">{{ country.area|floatformat:0 }} km²</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Landlocked</span>
+                <span class="detail-value">{% if country.landlocked %}Yes{% else %}No{% endif %}</span>
+            </div>
+        </div>
+
+        <!-- Codes & Info Section -->
+        <div class="detail-section">
+            <h3 class="detail-section-title">
+                <span>🔤</span> Codes & Info
+            </h3>
+            <div class="detail-item">
+                <span class="detail-label">ISO Alpha-2</span>
+                <span class="detail-value">{{ country.cca2 }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">ISO Alpha-3</span>
+                <span class="detail-value">{{ country.cca3 }}</span>
+            </div>
+            {% if country.idd.root %}
+            <div class="detail-item">
+                <span class="detail-label">Calling Code</span>
+                <span class="detail-value">{{ country.idd.root }}{{ country.idd.suffixes.0 }}</span>
+            </div>
+            {% endif %}
+            <div class="detail-item">
+                <span class="detail-label">TLD</span>
+                <span class="detail-value">{{ country.tld|join:", "|default:"N/A" }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">UN Member</span>
+                <span class="detail-value">{% if country.unMember %}Yes{% else %}No{% endif %}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Driving Side</span>
+                <span class="detail-value">{{ country.car.side|default:"N/A"|capfirst }}</span>
+            </div>
+        </div>
+
+        <!-- Currencies Section -->
+        <div class="detail-section">
+            <h3 class="detail-section-title">
+                <span>💰</span> Currencies
+            </h3>
+            {% for code, currency in country.currencies.items %}
+            <div class="detail-item">
+                <span class="detail-label">{{ code }}</span>
+                <span class="detail-value">{{ currency.name }} {{ currency.symbol|default:"" }}</span>
+            </div>
+            {% empty %}
+            <div class="detail-item">
+                <span class="detail-label">Currency</span>
+                <span class="detail-value">N/A</span>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Languages Section -->
+        <div class="detail-section">
+            <h3 class="detail-section-title">
+                <span>🗣️</span> Languages
+            </h3>
+            {% for code, name in country.languages.items %}
+            <div class="detail-item">
+                <span class="detail-label">{{ code|upper }}</span>
+                <span class="detail-value">{{ name }}</span>
+            </div>
+            {% empty %}
+            <div class="detail-item">
+                <span class="detail-label">Language</span>
+                <span class="detail-value">N/A</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Map Preview -->
+    {% if country.maps.googleMaps %}
+    <div class="detail-section animate-fadeInUp stagger-3" style="margin-top: var(--space-xl);">
+        <h3 class="detail-section-title">
+            <span>🗺️</span> Location
+        </h3>
+        <div style="display: flex; gap: var(--space-md); flex-wrap: wrap;">
+            <a href="{{ country.maps.googleMaps }}" target="_blank" class="btn-primary">
+                View on Google Maps
+                <span>↗</span>
+            </a>
+            {% if country.maps.openStreetMaps %}
+            <a href="{{ country.maps.openStreetMaps }}" target="_blank" class="btn-primary"
+                style="background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);">
+                View on OpenStreetMap
+                <span>↗</span>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% else %}
+    <!-- Error State -->
+    <div class="empty-state animate-fadeInUp">
+        <div class="empty-state-icon">😕</div>
+        <h3 class="empty-state-title">Country Not Found</h3>
+        <p class="empty-state-text">
+            We couldn't find details for this country.
+            Please try searching again.
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
