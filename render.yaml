@@ -9,7 +9,7 @@ services:
     autoDeploy: true
     envVars:
       - key: SECRET_KEY
-        generate: true
+        value: ""
       - key: DEBUG
         value: "False"
       - key: ALLOWED_HOSTS
