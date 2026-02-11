@@ -1,0 +1,24 @@
+# Render service and database configuration
+services:
+  - type: web
+    name: world-explorer-web
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
+    startCommand: gunicorn world_explorer.wsgi:application --workers 2 --bind 0.0.0.0:$PORT
+    autoDeploy: true
+    envVars:
+      - key: SECRET_KEY
+        generate: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: "your-app.onrender.com"
+
+databases:
+  - name: world-explorer-db
+    plan: free
+
+# Notes:
+# - Render will create a DATABASE_URL env var for the Postgres database above.
+# - Replace `your-app.onrender.com` with the actual Render service URL after deploy.

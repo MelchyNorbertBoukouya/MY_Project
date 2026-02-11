@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 from dotenv import load_dotenv
+import os
 
 # Load environment variables from .env file
 load_dotenv()
@@ -24,12 +25,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-^5&5!f)mk3(&+deub)_alt5tbuwyf(crx+#!+(n60+6d%63reh'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-^5&5!f)mk3(&+deub)_alt5tbuwyf(crx+#!+(n60+6d%63reh')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+# Allow configuration via environment variable, comma-separated
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
 
 # Application definition
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -84,6 +87,18 @@ DATABASES = {
     }
 }
 
+# Optionally support DATABASE_URL (e.g. Render Postgres). Falls back to sqlite3.
+DATABASE_URL = os.getenv('DATABASE_URL')
+if DATABASE_URL:
+    try:
+        import dj_database_url
+        DATABASES = {
+            'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600),
+        }
+    except Exception:
+        # dj_database_url not installed; keep default sqlite settings
+        pass
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -120,3 +135,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Use WhiteNoise storage for compressed static files when deployed
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
